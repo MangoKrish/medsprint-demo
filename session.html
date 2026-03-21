@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MedSprint — Exercise Session</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <div class="nav-logo-icon patient">M</div>
+        <span class="nav-logo-text">MedSprint</span>
+      </a>
+      <div class="nav-links">
+        <a href="dashboard.html" class="nav-link">Dashboard</a>
+        <a href="session.html" class="nav-link active patient">New Session</a>
+        <a href="progress.html" class="nav-link">Progress</a>
+        <a href="history.html" class="nav-link">History</a>
+      </div>
+      <div class="nav-avatar patient">SC</div>
+    </div>
+  </nav>
+
+  <div class="page">
+    <!-- Phase containers -->
+    <div id="phase-checkin" class="fade-in">
+      <h1>Daily Check-In</h1>
+      <p class="subtitle mb-6">How are you feeling today?</p>
+
+      <label class="text-sm font-medium text-white" style="display:block;margin-bottom:8px">Energy Level</label>
+      <div class="grid-3 mb-4">
+        <button class="select-btn energy-btn" data-value="Low"><span class="icon">~</span>Low</button>
+        <button class="select-btn energy-btn" data-value="Moderate"><span class="icon">=</span>Moderate</button>
+        <button class="select-btn energy-btn" data-value="High"><span class="icon">^</span>High</button>
+      </div>
+
+      <label class="text-sm font-medium text-white" style="display:block;margin-bottom:8px">Pain Level</label>
+      <div class="grid-4 mb-4">
+        <button class="select-btn pain-btn" data-value="None">None</button>
+        <button class="select-btn pain-btn" data-value="Low">Low</button>
+        <button class="select-btn pain-btn" data-value="Moderate">Moderate</button>
+        <button class="select-btn pain-btn" data-value="High">High</button>
+      </div>
+
+      <label class="text-sm font-medium text-white" style="display:block;margin-bottom:8px">Mood <span class="text-faint">(optional)</span></label>
+      <input type="text" class="input mb-6" placeholder="e.g., Motivated, Nervous, Tired..." id="mood-input">
+
+      <button class="btn btn-disabled btn-block" id="start-btn" disabled>Start Session</button>
+      <p class="text-xs text-faint text-center mt-2" id="checkin-hint" style="display:none">We'll adjust your starting reps based on your check-in.</p>
+    </div>
+
+    <div id="phase-exercise" class="fade-in hidden">
+      <!-- Progress dots -->
+      <div class="flex gap-2 mb-8" id="set-progress"></div>
+
+      <div class="text-center mb-8">
+        <p class="label mb-1">Hip Flexion</p>
+        <h1 style="font-size:40px" id="set-title">Set 1</h1>
+        <p class="text-sm text-faint">of 3 sets</p>
+      </div>
+
+      <div class="card card-glow text-center" style="padding:32px">
+        <p class="label mb-3">Recommended Reps</p>
+        <p class="huge-number text-accent" id="rec-reps">12</p>
+        <p class="text-xs text-faint mt-1">Max today: 15 reps</p>
+        <p class="text-xs text-faint mt-1" id="rec-reason"></p>
+      </div>
+
+      <div id="feedback-box" class="card hidden" style="background:var(--surface-2)">
+        <p class="text-xs font-medium text-faint mb-1">Last set feedback</p>
+        <p class="text-sm text-white" id="feedback-text"></p>
+      </div>
+
+      <p class="text-xs text-faint text-center mb-4">Resistance band, seated &middot; Smooth, controlled movement</p>
+      <button class="btn btn-primary btn-block" id="log-btn">Log This Set</button>
+
+      <div id="completed-sets" class="mt-4"></div>
+    </div>
+
+    <div id="phase-logging" class="fade-in hidden">
+      <h1 id="log-title">Hip Flexion — Set 1</h1>
+      <p class="subtitle mb-6">How did it go?</p>
+
+      <label class="text-sm font-medium text-white" style="display:block;margin-bottom:8px">Reps Completed</label>
+      <div class="stepper mb-2">
+        <button class="stepper-btn" id="reps-minus">-</button>
+        <input type="number" class="input input-big" id="reps-input" value="12">
+        <button class="stepper-btn" id="reps-plus">+</button>
+      </div>
+      <p class="text-xs text-faint text-center mb-6" id="reps-hint">Recommended: 12 &middot; Max: 15</p>
+
+      <label class="text-sm font-medium text-white" style="display:block;margin-bottom:12px">How hard did that feel?</label>
+      <input type="range" min="1" max="10" value="5" id="effort-slider">
+      <div class="flex justify-between text-xs text-faint mt-2 mb-2">
+        <span>Easy (1)</span>
+        <span style="font-size:17px;font-weight:600" id="effort-value">5</span>
+        <span>Max effort (10)</span>
+      </div>
+      <div class="text-center mb-6">
+        <span class="badge badge-accent" id="effort-label">Moderate</span>
+      </div>
+
+      <button class="btn btn-primary btn-block" id="submit-set-btn">Log & Continue</button>
+    </div>
+
+    <div id="phase-summary" class="fade-in hidden">
+      <div class="text-center mb-4">
+        <div id="summary-badge" class="badge badge-accent" style="font-size:13px;padding:8px 16px">Safe Session</div>
+      </div>
+      <h1 class="text-center mb-2">Session Complete</h1>
+      <p class="text-sm text-dim text-center mb-6" id="summary-message"></p>
+
+      <div class="grid-2 mb-4">
+        <div class="card stat"><div class="stat-value" id="sum-reps">--</div><div class="stat-label">Total Reps</div></div>
+        <div class="card stat"><div class="stat-value" id="sum-fatigue">--</div><div class="stat-label">Avg Fatigue</div></div>
+      </div>
+
+      <div class="card" id="sum-breakdown">
+        <h2>Set Breakdown</h2>
+      </div>
+
+      <div class="card card-accent glow-accent text-center">
+        <p class="label text-accent">Stability Streak</p>
+        <p class="big-number text-accent">13 sessions</p>
+        <p class="text-xs text-faint mt-1">Maintaining strength and not overdoing it. That's the win.</p>
+      </div>
+
+      <div id="overreach-warning" class="card card-warning hidden">
+        <p class="text-sm text-warning">Fatigue was detected during your session. We pulled back to keep you safe.</p>
+      </div>
+
+      <div class="flex gap-3 mt-2">
+        <a href="dashboard.html" class="btn btn-secondary" style="flex:1;text-align:center">Dashboard</a>
+        <a href="progress.html" class="btn btn-primary" style="flex:1;text-align:center">View Progress</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ─── Algorithm ───
+    function calcStartingReps(prescribed, max, energy, pain) {
+      const eMult = { Low: 0.75, Moderate: 1.0, High: 1.15 }[energy];
+      const pMult = { None: 1.0, Low: 0.95, Moderate: 0.88, High: 0.75 }[pain];
+      return Math.min(Math.max(Math.round(prescribed * eMult * pMult), 5), max);
+    }
+
+    function calcFatigue(repsThis, repsPrev, peThis, peBase) {
+      const drop = repsPrev > 0 ? Math.max(0, (repsPrev - repsThis) / repsPrev * 100) : 0;
+      const peInc = Math.max(0, peThis - peBase);
+      return Math.min(drop * 0.6 + (peInc > 3 ? peInc * 12 : peInc * 10), 100);
+    }
+
+    function recommend(reps, prescribed, max, fatigue) {
+      if (fatigue < 25) {
+        if (reps >= prescribed && reps < max) return { r: reps + 1, msg: "You're holding steady! Try +1 if you feel good.", level: 'Low' };
+        if (reps >= max) return { r: reps, msg: "At max safe intensity. Hold steady.", level: 'Low' };
+        return { r: Math.min(reps + 1, prescribed), msg: "Recovering. Increase back toward target.", level: 'Low' };
+      }
+      if (fatigue < 40) return { r: reps, msg: "Slight fatigue building. Maintain this level.", level: 'Moderate' };
+      if (fatigue < 60) return { r: Math.max(reps - 1, 5), msg: "Fatigue rising. Reduce next set by 1 rep to stay safe.", level: 'High' };
+      return { r: Math.max(reps - 2, 5), msg: "Fatigue spike detected. Pulling back to protect you.", level: 'VeryHigh' };
+    }
+
+    function dotClass(level) {
+      return { Low: 'dot-green', Moderate: 'dot-yellow', High: 'dot-orange', VeryHigh: 'dot-red' }[level] || 'dot-green';
+    }
+
+    // ─── State ───
+    let energy = null, pain = null;
+    let currentSet = 1, totalSets = 3;
+    let recReps = 12, prescribed = 12, maxReps = 15;
+    let sets = []; // { reps, pe, fatigue, level, msg }
+
+    // ─── Check-in ───
+    document.querySelectorAll('.energy-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.energy-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        energy = btn.dataset.value;
+        checkReady();
+      });
+    });
+    document.querySelectorAll('.pain-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.pain-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        pain = btn.dataset.value;
+        checkReady();
+      });
+    });
+
+    function checkReady() {
+      const ready = energy && pain;
+      const btn = document.getElementById('start-btn');
+      btn.disabled = !ready;
+      btn.className = ready ? 'btn btn-primary btn-block' : 'btn btn-disabled btn-block';
+      document.getElementById('checkin-hint').style.display = ready ? 'block' : 'none';
+    }
+
+    document.getElementById('start-btn').addEventListener('click', () => {
+      recReps = calcStartingReps(prescribed, maxReps, energy, pain);
+      showPhase('exercise');
+      updateExercise();
+    });
+
+    // ─── Exercise ───
+    function updateExercise() {
+      document.getElementById('set-title').textContent = `Set ${currentSet}`;
+      document.getElementById('rec-reps').textContent = recReps;
+      document.getElementById('reps-input').value = recReps;
+      document.getElementById('reps-hint').textContent = `Recommended: ${recReps} · Max: ${maxReps}`;
+
+      if (currentSet === 1) {
+        document.getElementById('rec-reason').textContent = `Adjusted from ${prescribed} · ${energy.toLowerCase()} energy${pain !== 'None' ? ', ' + pain.toLowerCase() + ' pain' : ''}`;
+      } else {
+        document.getElementById('rec-reason').textContent = '';
+      }
+
+      // Progress dots
+      let html = '';
+      for (let i = 0; i < totalSets; i++) {
+        const pct = i < currentSet - 1 ? 100 : i === currentSet - 1 ? 50 : 0;
+        html += `<div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>`;
+      }
+      document.getElementById('set-progress').innerHTML = html;
+
+      // Feedback
+      if (sets.length > 0) {
+        document.getElementById('feedback-box').classList.remove('hidden');
+        document.getElementById('feedback-text').textContent = sets[sets.length - 1].msg;
+      }
+
+      // Completed sets list
+      let setsHtml = '';
+      sets.forEach(s => {
+        setsHtml += `<div class="card" style="padding:10px 16px;display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;background:var(--surface-2)">
+          <span class="text-dim text-sm">Set ${s.setNum}</span>
+          <span class="flex items-center gap-3"><span class="font-medium text-white text-sm">${s.reps} reps</span><span class="text-xs text-faint">PE: ${s.pe}</span><span class="dot dot-sm ${dotClass(s.level)}" style="box-shadow:0 0 6px currentColor"></span></span>
+        </div>`;
+      });
+      document.getElementById('completed-sets').innerHTML = setsHtml;
+    }
+
+    document.getElementById('log-btn').addEventListener('click', () => {
+      document.getElementById('log-title').textContent = `Hip Flexion — Set ${currentSet}`;
+      document.getElementById('submit-set-btn').textContent = currentSet >= totalSets ? 'Finish Session' : 'Log & Continue';
+      showPhase('logging');
+    });
+
+    // ─── Logging ───
+    const repsInput = document.getElementById('reps-input');
+    document.getElementById('reps-minus').addEventListener('click', () => { repsInput.value = Math.max(0, +repsInput.value - 1); });
+    document.getElementById('reps-plus').addEventListener('click', () => { repsInput.value = +repsInput.value + 1; });
+
+    const effortSlider = document.getElementById('effort-slider');
+    const effortValue = document.getElementById('effort-value');
+    const effortLabel = document.getElementById('effort-label');
+
+    effortSlider.addEventListener('input', () => {
+      const v = +effortSlider.value;
+      effortValue.textContent = v;
+      const labels = { 1:'Easy',2:'Easy',3:'Easy',4:'Moderate',5:'Moderate',6:'Hard',7:'Hard',8:'Very Hard',9:'Very Hard',10:'Maximum' };
+      const colors = { Easy:'#5db8a0', Moderate:'#4a9e89', Hard:'#fbbf24', 'Very Hard':'#f97316', Maximum:'#f87171' };
+      const l = labels[v];
+      effortLabel.textContent = l;
+      effortValue.style.color = colors[l];
+      effortLabel.style.background = colors[l] + '18';
+      effortLabel.style.color = colors[l];
+      effortLabel.style.borderColor = colors[l] + '40';
+    });
+
+    document.getElementById('submit-set-btn').addEventListener('click', () => {
+      const reps = +repsInput.value;
+      const pe = +effortSlider.value;
+      const peBase = sets.length === 0 ? pe : sets[0].pe;
+      const repsPrev = sets.length > 0 ? sets[sets.length - 1].reps : reps;
+      const fatigue = sets.length === 0 ? 0 : calcFatigue(reps, repsPrev, pe, peBase);
+      const rec = recommend(reps, prescribed, maxReps, fatigue);
+
+      sets.push({ setNum: currentSet, reps, pe, fatigue, level: rec.level, msg: rec.msg });
+
+      if (currentSet >= totalSets) {
+        showSummary();
+      } else {
+        recReps = rec.r;
+        currentSet++;
+        showPhase('exercise');
+        updateExercise();
+      }
+    });
+
+    // ─── Summary ───
+    function showSummary() {
+      const avgFatigue = sets.reduce((s, x) => s + x.fatigue, 0) / sets.length;
+      const overreach = sets.filter(s => s.fatigue > 60).length;
+      const totalReps = sets.reduce((s, x) => s + x.reps, 0);
+
+      let classification, message, badgeClass;
+      if (overreach > 0) { classification = 'Overreach-averted'; message = 'You pushed hard today, but we caught the fatigue spike and pulled back.'; badgeClass = 'badge-danger'; }
+      else if (avgFatigue < 25) { classification = 'Light Session'; message = "Light session today — you're recovering well. Your body is fresh."; badgeClass = 'badge-info'; }
+      else if (avgFatigue < 50) { classification = 'Safe Session'; message = 'Great session. You completed all reps safely within your limits.'; badgeClass = 'badge-accent'; }
+      else { classification = 'Fatigue-heavy'; message = "Full workout today. You're at the edge of your limit. Rest well tonight."; badgeClass = 'badge-warning'; }
+
+      document.getElementById('summary-badge').textContent = classification;
+      document.getElementById('summary-badge').className = `badge ${badgeClass}`;
+      document.getElementById('summary-message').textContent = message;
+      document.getElementById('sum-reps').textContent = `${totalReps}/${prescribed * totalSets}`;
+      document.getElementById('sum-fatigue').textContent = Math.round(avgFatigue);
+
+      if (overreach > 0) document.getElementById('overreach-warning').classList.remove('hidden');
+
+      let html = '<h2>Set Breakdown</h2>';
+      sets.forEach(s => {
+        const fatigueLabel = s.fatigue < 25 ? 'Low' : s.fatigue < 40 ? 'Moderate' : s.fatigue < 60 ? 'High' : 'Very High';
+        html += `<div class="flex items-center justify-between" style="padding:8px 0;${s.setNum > 1 ? 'border-top:1px solid rgba(42,42,53,0.5)' : ''}">
+          <span class="flex items-center gap-3"><span class="dot ${dotClass(s.level)}"></span><span class="text-sm text-dim">Set ${s.setNum}</span></span>
+          <span class="flex items-center gap-4"><span class="text-sm font-medium text-white">${s.reps} reps</span><span class="text-faint text-xs">PE: ${s.pe}</span><span class="text-faint text-xs">${fatigueLabel}</span></span>
+        </div>`;
+      });
+      document.getElementById('sum-breakdown').innerHTML = html;
+
+      showPhase('summary');
+    }
+
+    // ─── Phase management ───
+    function showPhase(name) {
+      ['checkin','exercise','logging','summary'].forEach(p => {
+        const el = document.getElementById('phase-' + p);
+        el.classList.add('hidden');
+        el.classList.remove('fade-in');
+      });
+      const el = document.getElementById('phase-' + name);
+      el.classList.remove('hidden');
+      void el.offsetWidth; // trigger reflow
+      el.classList.add('fade-in');
+      window.scrollTo(0, 0);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MedSprint — Patient Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <div class="nav-logo-icon patient">M</div>
+        <span class="nav-logo-text">MedSprint</span>
+      </a>
+      <div class="nav-links">
+        <a href="dashboard.html" class="nav-link active patient">Dashboard</a>
+        <a href="session.html" class="nav-link">New Session</a>
+        <a href="progress.html" class="nav-link">Progress</a>
+        <a href="history.html" class="nav-link">History</a>
+      </div>
+      <div class="nav-avatar patient">SC</div>
+    </div>
+  </nav>
+
+  <div class="page fade-in">
+    <h1>Hey, Sarah</h1>
+    <p class="subtitle">LGMD Type 2A &middot; MRC Score 3</p>
+
+    <!-- Stability Streak -->
+    <div class="card mt-4" style="display:flex;align-items:center;justify-content:space-between">
+      <div>
+        <p class="label">Stability Streak</p>
+        <p class="big-number text-accent" style="margin-top:4px">12 sessions</p>
+        <p class="text-xs text-faint mt-1">Consecutive safe sessions. Maintaining strength, not overdoing it.</p>
+      </div>
+      <div style="width:64px;height:64px;border-radius:50%;border:2px solid rgba(93,184,160,0.15);background:rgba(110,231,183,0.06);display:flex;align-items:center;justify-content:center" class="glow-accent">
+        <span style="font-weight:700;font-size:18px;color:var(--accent)">12</span>
+      </div>
+    </div>
+
+    <!-- Start Session CTA -->
+    <a href="session.html" class="card card-accent glow-accent" style="display:flex;align-items:center;justify-content:space-between;text-decoration:none">
+      <div>
+        <p style="font-weight:600;font-size:17px;color:#fff">Start Today's Session</p>
+        <p style="font-size:13px;color:var(--accent);margin-top:2px">Hip Flexion &middot; 3 sets &middot; Resistance band, seated</p>
+      </div>
+      <span style="font-size:24px;color:var(--accent)">&rarr;</span>
+    </a>
+
+    <!-- Quick Stats -->
+    <div class="grid-3">
+      <div class="card stat">
+        <div class="stat-value">12</div>
+        <div class="stat-label">Sessions</div>
+      </div>
+      <div class="card stat">
+        <div class="stat-value">100%</div>
+        <div class="stat-label">Adherence</div>
+      </div>
+      <div class="card stat">
+        <div class="stat-value">2</div>
+        <div class="stat-label">Overreach Caught</div>
+      </div>
+    </div>
+
+    <!-- Last Session -->
+    <div class="card">
+      <div class="flex items-center justify-between mb-3">
+        <h2 style="margin:0">Last Session</h2>
+        <span class="badge badge-danger">Overreach-averted</span>
+      </div>
+      <p class="text-xs text-faint mb-3">2026-03-20 (Fri)</p>
+      <div class="row">
+        <span class="row-label">Set 1</span>
+        <span class="flex items-center gap-3"><span class="row-value">11 reps</span><span class="dot dot-green"></span></span>
+      </div>
+      <div class="row">
+        <span class="row-label">Set 2</span>
+        <span class="flex items-center gap-3"><span class="row-value">10 reps</span><span class="dot dot-yellow"></span></span>
+      </div>
+      <div class="row">
+        <span class="row-label">Set 3</span>
+        <span class="flex items-center gap-3"><span class="row-value">9 reps</span><span class="dot dot-orange"></span></span>
+      </div>
+      <p class="text-xs text-faint mt-3" style="border-top:1px solid var(--border);padding-top:12px">30/33 reps (91%)</p>
+    </div>
+
+    <!-- Prescription -->
+    <div class="card">
+      <h2>Your Prescription</h2>
+      <div class="row"><span class="row-label">Exercise</span><span class="row-value">Hip Flexion</span></div>
+      <div class="row"><span class="row-label">Target Reps</span><span class="row-value">12 per set</span></div>
+      <div class="row"><span class="row-label">Max Reps</span><span class="row-value">15</span></div>
+      <div class="row"><span class="row-label">Sets</span><span class="row-value">3 per session</span></div>
+      <div class="row"><span class="row-label">Schedule</span><span class="row-value">Mon, Wed, Fri</span></div>
+      <div class="row"><span class="row-label">Mode</span><span class="row-value">Resistance band, seated</span></div>
+      <p class="text-xs text-faint mt-3" style="font-style:italic">Focus on smooth, controlled movement. Stop if sharp pain.</p>
+    </div>
+  </div>
+</body>
+</html>

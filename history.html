@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MedSprint — Session History</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <div class="nav-logo-icon patient">M</div>
+        <span class="nav-logo-text">MedSprint</span>
+      </a>
+      <div class="nav-links">
+        <a href="dashboard.html" class="nav-link">Dashboard</a>
+        <a href="session.html" class="nav-link">New Session</a>
+        <a href="progress.html" class="nav-link">Progress</a>
+        <a href="history.html" class="nav-link active patient">History</a>
+      </div>
+      <div class="nav-avatar patient">SC</div>
+    </div>
+  </nav>
+
+  <div class="page fade-in" style="max-width:720px">
+    <h1>Session History</h1>
+    <p class="subtitle mb-8">12 sessions completed</p>
+
+    <!-- Week 4 -->
+    <p class="label mb-3">Week 4</p>
+    <div class="session-item">
+      <button class="session-header" onclick="toggle(this)">
+        <span class="flex items-center gap-3">
+          <span class="dot dot-red"></span>
+          <span><span class="text-sm font-medium text-white">Fri, 2026-03-20</span> <span class="text-xs text-danger" style="margin-left:8px">Overreach-averted</span></span>
+        </span>
+        <span class="flex items-center gap-3"><span class="text-sm font-medium text-white">30 reps</span><span class="text-xs text-faint">&#9660;</span></span>
+      </button>
+      <div class="session-detail">
+        <div class="grid-3 mb-3">
+          <div class="text-center"><p class="text-lg font-bold text-white">30/33</p><p class="text-xs text-faint">Reps</p></div>
+          <div class="text-center"><p class="text-lg font-bold text-white">22</p><p class="text-xs text-faint">Avg Fatigue</p></div>
+          <div class="text-center"><p class="text-lg font-bold text-white">Moderate</p><p class="text-xs text-faint">Energy</p></div>
+        </div>
+        <div class="row"><span class="flex items-center gap-2"><span class="dot dot-sm dot-green"></span><span class="text-sm text-dim">Set 1</span></span><span class="flex items-center gap-3"><span class="text-sm font-medium text-white">11 reps</span><span class="text-xs text-faint">PE: 5</span></span></div>
+        <div class="row"><span class="flex items-center gap-2"><span class="dot dot-sm dot-yellow"></span><span class="text-sm text-dim">Set 2</span></span><span class="flex items-center gap-3"><span class="text-sm font-medium text-white">10 reps</span><span class="text-xs text-faint">PE: 7</span></span></div>
+        <div class="row"><span class="flex items-center gap-2"><span class="dot dot-sm dot-orange"></span><span class="text-sm text-dim">Set 3</span></span><span class="flex items-center gap-3"><span class="text-sm font-medium text-white">9 reps</span><span class="text-xs text-faint">PE: 8</span></span></div>
+        <div class="card card-danger mt-3" style="padding:8px 12px;margin-bottom:0"><p class="text-xs text-danger">Overreach detected and averted.</p></div>
+      </div>
+    </div>
+    <div class="session-item">
+      <button class="session-header" onclick="toggle(this)">
+        <span class="flex items-center gap-3"><span class="dot dot-green"></span><span><span class="text-sm font-medium text-white">Wed, 2026-03-18</span> <span class="text-xs text-accent" style="margin-left:8px">Safe</span></span></span>
+        <span class="flex items-center gap-3"><span class="text-sm font-medium text-white">40 reps</span><span class="text-xs text-faint">&#9660;</span></span>
+      </button>
+      <div class="session-detail">
+        <div class="row"><span class="flex items-center gap-2"><span class="dot dot-sm dot-green"></span><span class="text-sm text-dim">Set 1</span></span><span class="text-sm font-medium text-white">13 reps</span></div>
+        <div class="row"><span class="flex items-center gap-2"><span class="dot dot-sm dot-green"></span><span class="text-sm text-dim">Set 2</span></span><span class="text-sm font-medium text-white">14 reps</span></div>
+        <div class="row"><span class="flex items-center gap-2"><span class="dot dot-sm dot-green"></span><span class="text-sm text-dim">Set 3</span></span><span class="text-sm font-medium text-white">13 reps</span></div>
+      </div>
+    </div>
+    <div class="session-item">
+      <button class="session-header" onclick="toggle(this)">
+        <span class="flex items-center gap-3"><span class="dot dot-green"></span><span><span class="text-sm font-medium text-white">Mon, 2026-03-16</span> <span class="text-xs text-accent" style="margin-left:8px">Safe</span></span></span>
+        <span class="text-sm font-medium text-white">36 reps</span>
+      </button>
+      <div class="session-detail">
+        <div class="row"><span class="flex items-center gap-2"><span class="dot dot-sm dot-green"></span><span class="text-sm text-dim">Set 1</span></span><span class="text-sm font-medium text-white">12 reps</span></div>
+        <div class="row"><span class="flex items-center gap-2"><span class="dot dot-sm dot-green"></span><span class="text-sm text-dim">Set 2</span></span><span class="text-sm font-medium text-white">12 reps</span></div>
+        <div class="row"><span class="flex items-center gap-2"><span class="dot dot-sm dot-green"></span><span class="text-sm text-dim">Set 3</span></span><span class="text-sm font-medium text-white">12 reps</span></div>
+      </div>
+    </div>
+
+    <!-- Week 3 -->
+    <p class="label mb-3 mt-6">Week 3</p>
+    <div class="session-item">
+      <button class="session-header" onclick="toggle(this)">
+        <span class="flex items-center gap-3"><span class="dot dot-green"></span><span><span class="text-sm font-medium text-white">Fri, 2026-03-13</span> <span class="text-xs text-accent" style="margin-left:8px">Safe</span></span></span>
+        <span class="text-sm font-medium text-white">35 reps</span>
+      </button>
+      <div class="session-detail">
+        <div class="row"><span class="flex items-center gap-2"><span class="dot dot-sm dot-green"></span><span class="text-sm text-dim">Set 1</span></span><span class="text-sm font-medium text-white">12 reps</span></div>
+        <div class="row"><span class="flex items-center gap-2"><span class="dot dot-sm dot-green"></span><span class="text-sm text-dim">Set 2</span></span><span class="text-sm font-medium text-white">12 reps</span></div>
+        <div class="row"><span class="flex items-center gap-2"><span class="dot dot-sm dot-yellow"></span><span class="text-sm text-dim">Set 3</span></span><span class="text-sm font-medium text-white">11 reps</span></div>
+      </div>
+    </div>
+    <div class="session-item">
+      <button class="session-header" onclick="toggle(this)">
+        <span class="flex items-center gap-3"><span class="dot dot-blue"></span><span><span class="text-sm font-medium text-white">Wed, 2026-03-11</span> <span class="text-xs" style="margin-left:8px;color:var(--info)">Light</span></span></span>
+        <span class="text-sm font-medium text-white">38 reps</span>
+      </button>
+      <div class="session-detail">
+        <div class="row"><span class="flex items-center gap-2"><span class="dot dot-sm dot-green"></span><span class="text-sm text-dim">Set 1</span></span><span class="text-sm font-medium text-white">13 reps</span></div>
+        <div class="row"><span class="flex items-center gap-2"><span class="dot dot-sm dot-green"></span><span class="text-sm text-dim">Set 2</span></span><span class="text-sm font-medium text-white">13 reps</span></div>
+        <div class="row"><span class="flex items-center gap-2"><span class="dot dot-sm dot-green"></span><span class="text-sm text-dim">Set 3</span></span><span class="text-sm font-medium text-white">12 reps</span></div>
+      </div>
+    </div>
+    <div class="session-item">
+      <button class="session-header" onclick="toggle(this)">
+        <span class="flex items-center gap-3"><span class="dot dot-green"></span><span><span class="text-sm font-medium text-white">Mon, 2026-03-09</span> <span class="text-xs text-accent" style="margin-left:8px">Safe</span></span></span>
+        <span class="text-sm font-medium text-white">36 reps</span>
+      </button>
+      <div class="session-detail">
+        <div class="row"><span class="flex items-center gap-2"><span class="dot dot-sm dot-green"></span><span class="text-sm text-dim">Set 1</span></span><span class="text-sm font-medium text-white">12 reps</span></div>
+        <div class="row"><span class="flex items-center gap-2"><span class="dot dot-sm dot-green"></span><span class="text-sm text-dim">Set 2</span></span><span class="text-sm font-medium text-white">12 reps</span></div>
+        <div class="row"><span class="flex items-center gap-2"><span class="dot dot-sm dot-green"></span><span class="text-sm text-dim">Set 3</span></span><span class="text-sm font-medium text-white">12 reps</span></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function toggle(btn) {
+      const detail = btn.nextElementSibling;
+      detail.classList.toggle('open');
+      const arrow = btn.querySelector('.text-faint:last-child');
+      if (arrow) arrow.textContent = detail.classList.contains('open') ? '▲' : '▼';
+    }
+  </script>
+</body>
+</html>

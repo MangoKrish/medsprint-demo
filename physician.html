@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MedSprint — Physician Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <div class="nav-logo-icon physician">M</div>
+        <span class="nav-logo-text">MedSprint</span>
+        <span class="nav-badge">Physician</span>
+      </a>
+      <div class="nav-links">
+        <a href="physician.html" class="nav-link active physician">Dashboard</a>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="text-xs text-dim">Dr. Patel</span>
+        <div class="nav-avatar physician">AP</div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page wide fade-in">
+    <!-- Patient header -->
+    <div class="flex items-center justify-between mb-8">
+      <div>
+        <h1>Sarah Chen</h1>
+        <p class="subtitle">LGMD Type 2A &middot; Age 34 &middot; MRC Score 3</p>
+        <p class="text-xs text-faint mt-1">Active — MRC 3 (moves against gravity, not resistance)</p>
+      </div>
+      <span class="badge badge-accent">Trend: Improving</span>
+    </div>
+
+    <div class="grid-sidebar">
+      <!-- Left column -->
+      <div>
+        <!-- Trajectory chart -->
+        <div class="card" style="padding:24px">
+          <h2>Disease Trajectory — Hip Flexion (4 Weeks)</h2>
+          <div class="chart-container" style="height:280px">
+            <canvas id="physicianChart"></canvas>
+          </div>
+          <div class="flex gap-6 mt-4 text-xs text-dim">
+            <span class="flex items-center gap-2"><span style="width:12px;height:3px;background:var(--accent);border-radius:2px;display:inline-block"></span> Actual</span>
+            <span class="flex items-center gap-2"><span style="width:12px;height:3px;background:var(--text-faint);border-radius:2px;display:inline-block"></span> Without exercise</span>
+            <span class="flex items-center gap-2"><span style="width:12px;height:3px;background:rgba(248,113,113,0.4);border-radius:2px;display:inline-block"></span> Max</span>
+          </div>
+        </div>
+
+        <!-- Clinical Interpretation -->
+        <div class="card" style="padding:28px">
+          <h2 style="margin-bottom:8px">Clinical Interpretation</h2>
+          <p class="text-sm" style="color:var(--text-muted);line-height:1.7;margin-bottom:20px">
+            Improvement trend (slope: 0.69 reps/week). Reps: 10.3 &rarr; 12.5. R&sup2;: 0.89.
+            Consider maintaining or cautiously increasing.
+          </p>
+          <div class="grid-3">
+            <div style="background:var(--surface-2);border-radius:10px;padding:16px;text-align:center">
+              <p style="font-size:20px;font-weight:700;color:#fff">0.69</p>
+              <p class="text-xs text-faint mt-1">Slope (reps/wk)</p>
+            </div>
+            <div style="background:var(--surface-2);border-radius:10px;padding:16px;text-align:center">
+              <p style="font-size:20px;font-weight:700;color:#fff">0.89</p>
+              <p class="text-xs text-faint mt-1">R&sup2;</p>
+            </div>
+            <div style="background:rgba(110,231,183,0.06);border:1px solid rgba(93,184,160,0.08);border-radius:10px;padding:16px;text-align:center">
+              <p style="font-size:20px;font-weight:700;color:var(--accent)">+2.2</p>
+              <p class="text-xs text-accent mt-1">Reps preserved</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Session table -->
+        <div class="card" style="padding:24px">
+          <h2>Session Detail by Week</h2>
+          <table class="table">
+            <thead>
+              <tr><th>Week</th><th>Day</th><th>Energy</th><th>S1</th><th>S2</th><th>S3</th><th>Total</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+              <tr><td class="num" rowspan="3">Wk 1</td><td>Mon</td><td class="text-dim">Low</td><td class="num">9 <span class="dot dot-sm dot-green"></span></td><td class="num">9 <span class="dot dot-sm dot-green"></span></td><td class="num">8 <span class="dot dot-sm dot-yellow"></span></td><td class="num">26</td><td><span class="badge badge-accent" style="padding:2px 6px;font-size:10px">Safe</span></td></tr>
+              <tr><td>Wed</td><td class="text-dim">Mod</td><td class="num">11 <span class="dot dot-sm dot-green"></span></td><td class="num">11 <span class="dot dot-sm dot-green"></span></td><td class="num">10 <span class="dot dot-sm dot-green"></span></td><td class="num">32</td><td><span class="badge badge-accent" style="padding:2px 6px;font-size:10px">Safe</span></td></tr>
+              <tr><td>Fri</td><td class="text-dim">Mod</td><td class="num">10 <span class="dot dot-sm dot-green"></span></td><td class="num">10 <span class="dot dot-sm dot-green"></span></td><td class="num">9 <span class="dot dot-sm dot-yellow"></span></td><td class="num">29</td><td><span class="badge badge-accent" style="padding:2px 6px;font-size:10px">Safe</span></td></tr>
+              <tr><td class="num" rowspan="3">Wk 4</td><td>Mon</td><td class="text-dim">Mod</td><td class="num">12 <span class="dot dot-sm dot-green"></span></td><td class="num">12 <span class="dot dot-sm dot-green"></span></td><td class="num">12 <span class="dot dot-sm dot-green"></span></td><td class="num">36</td><td><span class="badge badge-accent" style="padding:2px 6px;font-size:10px">Safe</span></td></tr>
+              <tr><td>Wed</td><td class="text-dim">High</td><td class="num">13 <span class="dot dot-sm dot-green"></span></td><td class="num">14 <span class="dot dot-sm dot-green"></span></td><td class="num">13 <span class="dot dot-sm dot-green"></span></td><td class="num">40</td><td><span class="badge badge-accent" style="padding:2px 6px;font-size:10px">Safe</span></td></tr>
+              <tr><td>Fri</td><td class="text-dim">Mod</td><td class="num">11 <span class="dot dot-sm dot-green"></span></td><td class="num">10 <span class="dot dot-sm dot-yellow"></span></td><td class="num">9 <span class="dot dot-sm dot-orange"></span></td><td class="num">30</td><td><span class="badge badge-danger" style="padding:2px 6px;font-size:10px">Overreach</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Right column -->
+      <div>
+        <!-- Overview -->
+        <div class="card">
+          <h2>Overview</h2>
+          <div class="row"><span class="row-label">Sessions</span><span class="row-value">12/12</span></div>
+          <div class="row"><span class="row-label">Adherence</span><span class="row-value text-accent">100%</span></div>
+          <div class="row"><span class="row-label">Overreach events</span><span class="row-value">2</span></div>
+          <div class="row"><span class="row-label">Injury flags</span><span class="row-value text-accent">0</span></div>
+          <div class="row"><span class="row-label">Stability streak</span><span class="row-value text-accent">12</span></div>
+        </div>
+
+        <!-- Prescription -->
+        <div class="card">
+          <h2>Current Prescription</h2>
+          <div class="row"><span class="row-label">Exercise</span><span class="row-value">Hip Flexion</span></div>
+          <div class="row"><span class="row-label">Target</span><span class="row-value">12 reps</span></div>
+          <div class="row"><span class="row-label">Max</span><span class="row-value text-danger">15 reps</span></div>
+          <div class="row"><span class="row-label">Sets</span><span class="row-value">3</span></div>
+          <div class="row"><span class="row-label">Frequency</span><span class="row-value">3x/week</span></div>
+          <div class="row"><span class="row-label">Mode</span><span class="row-value" style="font-size:11px">Resistance band</span></div>
+        </div>
+
+        <!-- Recommendation -->
+        <div class="card card-physician glow-physician">
+          <h2 style="color:var(--physician)">Recommendation</h2>
+          <p class="text-sm" style="color:#a78bfa;line-height:1.7">
+            Patient is responding well. Reps stable with improvement trend.
+            Ideal candidate for 2nd exercise group (knee extension).
+          </p>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="card">
+          <h2>Quick Actions</h2>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <button class="btn btn-secondary btn-block" style="padding:10px 16px;font-size:13px;justify-content:flex-start">Adjust Max Reps</button>
+            <button class="btn btn-secondary btn-block" style="padding:10px 16px;font-size:13px;justify-content:flex-start">Change Frequency</button>
+            <button class="btn btn-block" style="padding:10px 16px;font-size:13px;justify-content:flex-start;background:rgba(192,132,252,0.08);border:1px solid rgba(192,132,252,0.2);color:var(--physician)">Add Exercise Group</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('physicianChart');
+    const ctx = canvas.getContext('2d');
+    const dpr = window.devicePixelRatio || 1;
+
+    function draw() {
+      const rect = canvas.parentElement.getBoundingClientRect();
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      canvas.style.width = rect.width + 'px';
+      canvas.style.height = rect.height + 'px';
+      ctx.scale(dpr, dpr);
+
+      const W = rect.width, H = rect.height;
+      const pad = { top: 20, right: 30, bottom: 40, left: 40 };
+      const cW = W - pad.left - pad.right, cH = H - pad.top - pad.bottom;
+      const weeks = ['Week 1', 'Week 2', 'Week 3', 'Week 4'];
+      const actual = [10.3, 11.7, 12.0, 12.5];
+      const expected = [10.3, 9.3, 8.3, 7.3];
+      const maxLine = 15, yMin = 0, yMax = 17;
+
+      function x(i) { return pad.left + (i / 3) * cW; }
+      function y(v) { return pad.top + (1 - (v - yMin) / (yMax - yMin)) * cH; }
+
+      ctx.strokeStyle = '#2a2a35'; ctx.lineWidth = 1;
+      for (let v = 0; v <= yMax; v += 5) {
+        ctx.beginPath(); ctx.moveTo(pad.left, y(v)); ctx.lineTo(W - pad.right, y(v)); ctx.stroke();
+        ctx.fillStyle = '#71717a'; ctx.font = '11px Inter, sans-serif'; ctx.textAlign = 'right';
+        ctx.fillText(v, pad.left - 8, y(v) + 4);
+      }
+      ctx.textAlign = 'center'; ctx.fillStyle = '#71717a';
+      weeks.forEach((w, i) => ctx.fillText(w, x(i), H - 12));
+
+      ctx.setLineDash([5, 5]); ctx.strokeStyle = 'rgba(248,113,113,0.3)'; ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.moveTo(pad.left, y(maxLine)); ctx.lineTo(W - pad.right, y(maxLine)); ctx.stroke();
+      ctx.fillStyle = '#f87171'; ctx.font = '10px Inter'; ctx.textAlign = 'left';
+      ctx.fillText('Max', W - pad.right + 4, y(maxLine) + 3);
+
+      ctx.strokeStyle = '#52525b'; ctx.lineWidth = 2;
+      ctx.beginPath(); expected.forEach((v, i) => i === 0 ? ctx.moveTo(x(i), y(v)) : ctx.lineTo(x(i), y(v))); ctx.stroke();
+      ctx.setLineDash([]);
+
+      ctx.strokeStyle = '#5db8a0'; ctx.lineWidth = 3;
+      ctx.shadowColor = 'rgba(93,184,160,0.2)'; ctx.shadowBlur = 8;
+      ctx.beginPath(); actual.forEach((v, i) => i === 0 ? ctx.moveTo(x(i), y(v)) : ctx.lineTo(x(i), y(v))); ctx.stroke();
+      ctx.shadowBlur = 0;
+
+      actual.forEach((v, i) => {
+        ctx.beginPath(); ctx.arc(x(i), y(v), 5, 0, Math.PI * 2);
+        ctx.fillStyle = '#5db8a0'; ctx.fill();
+        ctx.strokeStyle = '#131318'; ctx.lineWidth = 2; ctx.stroke();
+      });
+    }
+    draw(); window.addEventListener('resize', draw);
+  </script>
+</body>
+</html>

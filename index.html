@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MedSprint — Exercise Engagement for Progressive Muscle Disease</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Nav -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <div class="nav-logo-icon patient">M</div>
+        <span class="nav-logo-text">MedSprint</span>
+      </a>
+      <div class="flex gap-3">
+        <a href="dashboard.html" class="btn btn-secondary" style="padding:8px 16px;font-size:13px;border-color:rgba(110,231,183,0.2);color:var(--accent)">Patient Portal</a>
+        <a href="physician.html" class="btn btn-secondary" style="padding:8px 16px;font-size:13px;border-color:rgba(192,132,252,0.2);color:var(--physician)">Physician Portal</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <main style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:calc(100vh - 120px);padding:0 24px;position:relative">
+    <div class="orb"></div>
+    <div style="max-width:640px;text-align:center;position:relative;z-index:1" class="fade-in">
+      <div class="badge badge-accent mb-6" style="gap:8px">
+        <span style="width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 6px var(--accent)"></span>
+        Built for Medsprint 2026
+      </div>
+      <h1 style="font-size:48px;line-height:1.1;margin-bottom:20px">
+        Exercise that adapts to<br>
+        <span style="color:#5db8a0">progressive disease</span>
+      </h1>
+      <p style="font-size:17px;color:var(--text-dim);max-width:520px;margin:0 auto 28px">
+        Real-time fatigue detection. Overreach prevention. Disease trajectory tracking.
+        For patients where success isn't improvement — it's stability.
+      </p>
+      <div class="flex gap-3" style="justify-content:center">
+        <a href="dashboard.html" class="btn btn-primary" style="padding:14px 28px">Enter as Patient</a>
+        <a href="physician.html" class="btn btn-secondary" style="padding:14px 28px">Enter as Physician</a>
+      </div>
+    </div>
+
+    <!-- Feature cards -->
+    <div class="grid-3 mt-6" style="max-width:900px;width:100%;position:relative;z-index:1;margin-top:72px">
+      <div class="card">
+        <div style="width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:rgba(93,184,160,0.06);color:var(--accent);font-size:18px;margin-bottom:12px">&#8651;</div>
+        <h3 style="font-size:14px;font-weight:600;color:#fff;margin-bottom:6px">Real-time Adaptation</h3>
+        <p style="font-size:12px;color:var(--text-dim);line-height:1.6">Adjusts reps per-set based on fatigue, energy, and pain. Not a static plan — a living prescription.</p>
+      </div>
+      <div class="card">
+        <div style="width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:rgba(248,113,113,0.08);color:var(--danger);font-size:18px;margin-bottom:12px">&#9671;</div>
+        <h3 style="font-size:14px;font-weight:600;color:#fff;margin-bottom:6px">Overreach Prevention</h3>
+        <p style="font-size:12px;color:var(--text-dim);line-height:1.6">Detects fatigue spikes mid-session and pulls back automatically. Keeps patients in safe zone.</p>
+      </div>
+      <div class="card">
+        <div style="width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:rgba(251,191,36,0.08);color:var(--warning);font-size:18px;margin-bottom:12px">&#8766;</div>
+        <h3 style="font-size:14px;font-weight:600;color:#fff;margin-bottom:6px">Disease Trajectory</h3>
+        <p style="font-size:12px;color:var(--text-dim);line-height:1.6">Tracks how exercise delays decline over weeks. Shows patients and doctors the real impact.</p>
+      </div>
+    </div>
+  </main>
+
+  <footer style="border-top:1px solid var(--border);padding:16px;text-align:center;font-size:11px;color:var(--text-faint)">
+    MedSprint 2026 — Exercise Engagement for Progressive Muscle Disease
+  </footer>
+</body>
+</html>
