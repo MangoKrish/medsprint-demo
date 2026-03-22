@@ -5,6 +5,37 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MedSprint — Physician Dashboard</title>
   <link rel="stylesheet" href="styles.css">
+  <style>
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 100;
+      background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none; transition: opacity 0.2s;
+    }
+    .modal-overlay.open { opacity: 1; pointer-events: auto; }
+    .modal {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 14px; padding: 28px; width: 90%; max-width: 400px;
+      transform: translateY(12px); transition: transform 0.2s;
+    }
+    .modal-overlay.open .modal { transform: translateY(0); }
+    .modal h3 { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 4px; }
+    .modal .subtitle { margin-bottom: 20px; }
+    .modal-actions { display: flex; gap: 8px; margin-top: 20px; }
+    .modal-actions .btn { flex: 1; }
+    .toast {
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(60px);
+      background: var(--surface-2); border: 1px solid var(--border);
+      color: var(--accent); padding: 10px 20px; border-radius: 10px;
+      font-size: 13px; font-weight: 500; z-index: 200;
+      opacity: 0; transition: all 0.3s; pointer-events: none;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    /* Responsive sidebar: stack on mobile */
+    @media (max-width: 860px) {
+      .grid-sidebar { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
   <nav class="nav">
@@ -26,11 +57,11 @@
 
   <div class="page wide fade-in">
     <!-- Patient header -->
-    <div class="flex items-center justify-between mb-8">
+    <div class="flex items-center justify-between mb-8" style="flex-wrap:wrap;gap:12px">
       <div>
         <h1>Sarah Chen</h1>
         <p class="subtitle">LGMD Type 2A &middot; Age 34 &middot; MRC Score 3</p>
-        <p class="text-xs text-faint mt-1">Active — MRC 3 (moves against gravity, not resistance)</p>
+        <p class="text-xs text-faint mt-1">Active &mdash; MRC 3 (moves against gravity, not resistance)</p>
       </div>
       <span class="badge badge-accent">Trend: Improving</span>
     </div>
@@ -40,11 +71,11 @@
       <div>
         <!-- Trajectory chart -->
         <div class="card" style="padding:24px">
-          <h2>Disease Trajectory — Hip Flexion (4 Weeks)</h2>
+          <h2>Disease Trajectory &mdash; Hip Flexion (4 Weeks)</h2>
           <div class="chart-container" style="height:280px">
             <canvas id="physicianChart"></canvas>
           </div>
-          <div class="flex gap-6 mt-4 text-xs text-dim">
+          <div class="flex gap-6 mt-4 text-xs text-dim" style="flex-wrap:wrap">
             <span class="flex items-center gap-2"><span style="width:12px;height:3px;background:var(--accent);border-radius:2px;display:inline-block"></span> Actual</span>
             <span class="flex items-center gap-2"><span style="width:12px;height:3px;background:var(--text-faint);border-radius:2px;display:inline-block"></span> Without exercise</span>
             <span class="flex items-center gap-2"><span style="width:12px;height:3px;background:rgba(248,113,113,0.4);border-radius:2px;display:inline-block"></span> Max</span>
@@ -55,8 +86,7 @@
         <div class="card" style="padding:28px">
           <h2 style="margin-bottom:8px">Clinical Interpretation</h2>
           <p class="text-sm" style="color:var(--text-muted);line-height:1.7;margin-bottom:20px">
-            Improvement trend (slope: 0.69 reps/week). Reps: 10.3 &rarr; 12.5. R&sup2;: 0.89.
-            Consider maintaining or cautiously increasing.
+            Patient shows an improvement trend over 4 weeks. Reps increased from 10.3 to 12.5 (slope: 0.69 reps/week, R&sup2;: 0.89). Exercise is preserving approximately 2.2 reps compared to expected decline without intervention. Recommend continuing current prescription or cautiously increasing intensity.
           </p>
           <div class="grid-3">
             <div style="background:var(--surface-2);border-radius:10px;padding:16px;text-align:center">
@@ -67,7 +97,7 @@
               <p style="font-size:20px;font-weight:700;color:#fff">0.89</p>
               <p class="text-xs text-faint mt-1">R&sup2;</p>
             </div>
-            <div style="background:rgba(110,231,183,0.06);border:1px solid rgba(93,184,160,0.08);border-radius:10px;padding:16px;text-align:center">
+            <div style="background:rgba(93,184,160,0.06);border:1px solid rgba(93,184,160,0.08);border-radius:10px;padding:16px;text-align:center">
               <p style="font-size:20px;font-weight:700;color:var(--accent)">+2.2</p>
               <p class="text-xs text-accent mt-1">Reps preserved</p>
             </div>
@@ -75,9 +105,9 @@
         </div>
 
         <!-- Session table -->
-        <div class="card" style="padding:24px">
+        <div class="card" style="padding:24px;overflow-x:auto">
           <h2>Session Detail by Week</h2>
-          <table class="table">
+          <table class="table" style="min-width:500px">
             <thead>
               <tr><th>Week</th><th>Day</th><th>Energy</th><th>S1</th><th>S2</th><th>S3</th><th>Total</th><th>Status</th></tr>
             </thead>
@@ -98,30 +128,29 @@
         <!-- Overview -->
         <div class="card">
           <h2>Overview</h2>
-          <div class="row"><span class="row-label">Sessions</span><span class="row-value">12/12</span></div>
-          <div class="row"><span class="row-label">Adherence</span><span class="row-value text-accent">100%</span></div>
+          <div class="row"><span class="row-label">Sessions completed</span><span class="row-value">12 / 12</span></div>
+          <div class="row"><span class="row-label">Adherence rate</span><span class="row-value text-accent">100%</span></div>
           <div class="row"><span class="row-label">Overreach events</span><span class="row-value">2</span></div>
           <div class="row"><span class="row-label">Injury flags</span><span class="row-value text-accent">0</span></div>
           <div class="row"><span class="row-label">Stability streak</span><span class="row-value text-accent">12</span></div>
         </div>
 
         <!-- Prescription -->
-        <div class="card">
+        <div class="card" id="prescription-card">
           <h2>Current Prescription</h2>
           <div class="row"><span class="row-label">Exercise</span><span class="row-value">Hip Flexion</span></div>
-          <div class="row"><span class="row-label">Target</span><span class="row-value">12 reps</span></div>
-          <div class="row"><span class="row-label">Max</span><span class="row-value text-danger">15 reps</span></div>
-          <div class="row"><span class="row-label">Sets</span><span class="row-value">3</span></div>
-          <div class="row"><span class="row-label">Frequency</span><span class="row-value">3x/week</span></div>
-          <div class="row"><span class="row-label">Mode</span><span class="row-value" style="font-size:11px">Resistance band</span></div>
+          <div class="row"><span class="row-label">Target reps</span><span class="row-value">12 per set</span></div>
+          <div class="row"><span class="row-label">Max safe reps</span><span class="row-value text-danger" id="display-max">15</span></div>
+          <div class="row"><span class="row-label">Sets per session</span><span class="row-value">3</span></div>
+          <div class="row"><span class="row-label">Frequency</span><span class="row-value" id="display-freq">3x / week</span></div>
+          <div class="row"><span class="row-label">Mode</span><span class="row-value">Resistance band, seated</span></div>
         </div>
 
         <!-- Recommendation -->
         <div class="card card-physician glow-physician">
           <h2 style="color:var(--physician)">Recommendation</h2>
-          <p class="text-sm" style="color:#a78bfa;line-height:1.7">
-            Patient is responding well. Reps stable with improvement trend.
-            Ideal candidate for 2nd exercise group (knee extension).
+          <p class="text-sm" style="color:var(--text-muted);line-height:1.7">
+            Patient is responding well to exercise. Reps are stable with a clear improvement trend. Consider progressing to a second exercise group (knee extension) to expand functional coverage.
           </p>
         </div>
 
@@ -129,16 +158,81 @@
         <div class="card">
           <h2>Quick Actions</h2>
           <div style="display:flex;flex-direction:column;gap:8px">
-            <button class="btn btn-secondary btn-block" style="padding:10px 16px;font-size:13px;justify-content:flex-start">Adjust Max Reps</button>
-            <button class="btn btn-secondary btn-block" style="padding:10px 16px;font-size:13px;justify-content:flex-start">Change Frequency</button>
-            <button class="btn btn-block" style="padding:10px 16px;font-size:13px;justify-content:flex-start;background:rgba(192,132,252,0.08);border:1px solid rgba(192,132,252,0.2);color:var(--physician)">Add Exercise Group</button>
+            <button class="btn btn-secondary btn-block" style="padding:10px 16px;font-size:13px;justify-content:flex-start" onclick="openModal('reps')">Adjust Max Reps</button>
+            <button class="btn btn-secondary btn-block" style="padding:10px 16px;font-size:13px;justify-content:flex-start" onclick="openModal('freq')">Change Frequency</button>
+            <button class="btn btn-block" style="padding:10px 16px;font-size:13px;justify-content:flex-start;background:rgba(167,139,250,0.08);border:1px solid rgba(167,139,250,0.2);color:var(--physician)" onclick="openModal('exercise')">Add Exercise Group</button>
           </div>
         </div>
       </div>
     </div>
   </div>
 
+  <!-- Modal: Adjust Max Reps -->
+  <div class="modal-overlay" id="modal-reps">
+    <div class="modal">
+      <h3>Adjust Max Reps</h3>
+      <p class="subtitle">Change the safety ceiling for Hip Flexion</p>
+      <label class="text-xs text-faint" style="display:block;margin-bottom:6px">Current max: <strong class="text-white">15 reps</strong></label>
+      <div class="stepper" style="justify-content:center">
+        <button class="stepper-btn" onclick="adjustVal('reps-val', -1)">-</button>
+        <input type="number" class="input input-big" id="reps-val" value="16" style="width:80px">
+        <button class="stepper-btn" onclick="adjustVal('reps-val', 1)">+</button>
+      </div>
+      <p class="text-xs text-faint text-center mt-2">Patient will see the new limit starting next session.</p>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" onclick="closeModal('reps')">Cancel</button>
+        <button class="btn btn-physician" onclick="saveReps()">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Change Frequency -->
+  <div class="modal-overlay" id="modal-freq">
+    <div class="modal">
+      <h3>Change Frequency</h3>
+      <p class="subtitle">Adjust weekly exercise sessions</p>
+      <label class="text-xs text-faint" style="display:block;margin-bottom:6px">Current: <strong class="text-white">3x / week</strong></label>
+      <div class="grid-3" style="margin-bottom:8px">
+        <button class="select-btn freq-btn" data-value="2">2x / week</button>
+        <button class="select-btn freq-btn selected" data-value="3">3x / week</button>
+        <button class="select-btn freq-btn" data-value="4">4x / week</button>
+      </div>
+      <p class="text-xs text-faint text-center mt-2">Schedule will update for the next week.</p>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" onclick="closeModal('freq')">Cancel</button>
+        <button class="btn btn-physician" onclick="saveFreq()">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Add Exercise -->
+  <div class="modal-overlay" id="modal-exercise">
+    <div class="modal">
+      <h3>Add Exercise Group</h3>
+      <p class="subtitle">Expand the patient's exercise program</p>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px">
+        <button class="select-btn ex-btn" data-value="Knee Extension" onclick="selectEx(this)">Knee Extension</button>
+        <button class="select-btn ex-btn" data-value="Shoulder Abduction" onclick="selectEx(this)">Shoulder Abduction</button>
+        <button class="select-btn ex-btn" data-value="Ankle Dorsiflexion" onclick="selectEx(this)">Ankle Dorsiflexion</button>
+      </div>
+      <label class="text-xs text-faint" style="display:block;margin-bottom:6px">Max reps for new exercise</label>
+      <div class="stepper" style="justify-content:center">
+        <button class="stepper-btn" onclick="adjustVal('ex-reps', -1)">-</button>
+        <input type="number" class="input input-big" id="ex-reps" value="10" style="width:80px">
+        <button class="stepper-btn" onclick="adjustVal('ex-reps', 1)">+</button>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" onclick="closeModal('exercise')">Cancel</button>
+        <button class="btn btn-physician" onclick="saveExercise()">Add Exercise</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
   <script>
+    // ─── Chart ───
     const canvas = document.getElementById('physicianChart');
     const ctx = canvas.getContext('2d');
     const dpr = window.devicePixelRatio || 1;
@@ -192,6 +286,67 @@
       });
     }
     draw(); window.addEventListener('resize', draw);
+
+    // ─── Modals ───
+    function openModal(name) {
+      document.getElementById('modal-' + name).classList.add('open');
+    }
+    function closeModal(name) {
+      document.getElementById('modal-' + name).classList.remove('open');
+    }
+    // Close on overlay click
+    document.querySelectorAll('.modal-overlay').forEach(ov => {
+      ov.addEventListener('click', e => { if (e.target === ov) ov.classList.remove('open'); });
+    });
+
+    function adjustVal(id, delta) {
+      const el = document.getElementById(id);
+      el.value = Math.max(1, +el.value + delta);
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2500);
+    }
+
+    // Save max reps
+    function saveReps() {
+      const val = document.getElementById('reps-val').value;
+      document.getElementById('display-max').textContent = val;
+      closeModal('reps');
+      showToast('Max reps updated to ' + val + '. Patient will see this next session.');
+    }
+
+    // Save frequency
+    let selectedFreq = '3';
+    document.querySelectorAll('.freq-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.freq-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        selectedFreq = btn.dataset.value;
+      });
+    });
+    function saveFreq() {
+      document.getElementById('display-freq').textContent = selectedFreq + 'x / week';
+      closeModal('freq');
+      showToast('Frequency updated to ' + selectedFreq + 'x per week.');
+    }
+
+    // Add exercise
+    let selectedExercise = null;
+    function selectEx(btn) {
+      document.querySelectorAll('.ex-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      selectedExercise = btn.dataset.value;
+    }
+    function saveExercise() {
+      if (!selectedExercise) { showToast('Please select an exercise first.'); return; }
+      const reps = document.getElementById('ex-reps').value;
+      closeModal('exercise');
+      showToast(selectedExercise + ' added with max ' + reps + ' reps.');
+    }
   </script>
 </body>
 </html>
