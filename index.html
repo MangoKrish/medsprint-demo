@@ -7,7 +7,6 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- Nav -->
   <nav class="nav">
     <div class="nav-inner">
       <a href="index.html" class="nav-logo">
@@ -21,49 +20,123 @@
     </div>
   </nav>
 
-  <!-- Hero -->
-  <main style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:calc(100vh - 120px);padding:0 24px;position:relative">
+  <main class="landing-main">
     <div class="orb"></div>
-    <div style="max-width:640px;text-align:center;position:relative;z-index:1" class="fade-in">
-      <div class="badge badge-accent mb-6" style="gap:8px">
-        <span style="width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 6px var(--accent)"></span>
-        Built for Medsprint 2026
-      </div>
-      <h1 style="font-size:48px;line-height:1.1;margin-bottom:20px">
-        Exercise that adapts to<br>
-        <span style="color:#5db8a0">progressive disease</span>
-      </h1>
-      <p style="font-size:17px;color:var(--text-dim);max-width:520px;margin:0 auto 28px">
-        Real-time fatigue detection. Overreach prevention. Disease trajectory tracking.
-        For patients where success isn't improvement — it's stability.
-      </p>
-      <div class="flex gap-3" style="justify-content:center">
-        <a href="dashboard.html" class="btn btn-primary" style="padding:14px 28px">Enter as Patient</a>
-        <a href="physician.html" class="btn btn-secondary" style="padding:14px 28px">Enter as Physician</a>
-      </div>
-    </div>
+    <div class="landing-shell fade-in">
+      <section class="landing-hero">
+        <div class="hero-copy">
+          <div class="hero-kicker">
+            <span class="hero-kicker-dot"></span>
+            Built for MedSprint 2026
+          </div>
+          <h1 class="hero-title">
+            Exercise that adapts to
+            <span class="accent-text">progressive disease</span>
+          </h1>
+          <p class="hero-text">
+            Real-time fatigue detection, overreach prevention, and trajectory tracking for patients where success is measured by stability, not just improvement.
+          </p>
+          <div class="hero-actions">
+            <a href="dashboard.html" class="btn btn-primary" style="padding:14px 28px">Enter as Patient</a>
+            <a href="physician.html" class="btn btn-secondary" style="padding:14px 28px">Enter as Physician</a>
+          </div>
+          <div class="hero-meta">
+            <div class="metric-chip">
+              <strong>12</strong>
+              <span>Stable sessions</span>
+            </div>
+            <div class="metric-chip">
+              <strong>2</strong>
+              <span>Overreach events caught</span>
+            </div>
+            <div class="metric-chip">
+              <strong>+2.2</strong>
+              <span>Reps preserved</span>
+            </div>
+          </div>
+        </div>
 
-    <!-- Feature cards -->
-    <div class="grid-3 mt-6" style="max-width:900px;width:100%;position:relative;z-index:1;margin-top:72px">
-      <div class="card">
-        <div style="width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:rgba(93,184,160,0.06);color:var(--accent);font-size:18px;margin-bottom:12px">&#8651;</div>
-        <h3 style="font-size:14px;font-weight:600;color:#fff;margin-bottom:6px">Real-time Adaptation</h3>
-        <p style="font-size:12px;color:var(--text-dim);line-height:1.6">Adjusts reps per-set based on fatigue, energy, and pain. Not a static plan — a living prescription.</p>
-      </div>
-      <div class="card">
-        <div style="width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:rgba(248,113,113,0.08);color:var(--danger);font-size:18px;margin-bottom:12px">&#9671;</div>
-        <h3 style="font-size:14px;font-weight:600;color:#fff;margin-bottom:6px">Overreach Prevention</h3>
-        <p style="font-size:12px;color:var(--text-dim);line-height:1.6">Detects fatigue spikes mid-session and pulls back automatically. Keeps patients in safe zone.</p>
-      </div>
-      <div class="card">
-        <div style="width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:rgba(251,191,36,0.08);color:var(--warning);font-size:18px;margin-bottom:12px">&#8766;</div>
-        <h3 style="font-size:14px;font-weight:600;color:#fff;margin-bottom:6px">Disease Trajectory</h3>
-        <p style="font-size:12px;color:var(--text-dim);line-height:1.6">Tracks how exercise delays decline over weeks. Shows patients and doctors the real impact.</p>
-      </div>
+        <div class="hero-panel">
+          <span class="panel-label">Live Session Snapshot</span>
+          <div class="panel-stack">
+            <div class="signal-card">
+              <div class="signal-row">
+                <div>
+                  <p class="label">Adaptive Target</p>
+                  <p class="signal-value">11 reps</p>
+                  <p class="signal-caption">Adjusted from 12 based on pain, energy, and fatigue.</p>
+                </div>
+                <span class="badge badge-accent">Safe zone</span>
+              </div>
+              <div class="signal-bars" aria-hidden="true">
+                <span style="height:18px"></span>
+                <span style="height:22px"></span>
+                <span style="height:28px"></span>
+                <span style="height:32px"></span>
+                <span style="height:34px"></span>
+                <span style="height:26px"></span>
+                <span style="height:20px"></span>
+                <span style="height:14px"></span>
+              </div>
+            </div>
+
+            <div class="signal-card">
+              <div class="signal-alert">
+                <div class="signal-alert-copy">
+                  <p>Overreach detected in set 3</p>
+                  <p>The algorithm pulled back by 2 reps before the patient crossed the safe ceiling.</p>
+                </div>
+                <div class="signal-status">Auto-adjusted</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="landing-band">
+        <div class="band-card">
+          <strong>Designed for progressive muscle disease</strong>
+          <span>Built around decline-sensitive care, not generic fitness progression logic.</span>
+        </div>
+        <div class="band-card">
+          <strong>Useful to both patient and clinician</strong>
+          <span>Patient screens focus on confidence and safety. Physician screens focus on trend interpretation.</span>
+        </div>
+        <div class="band-card">
+          <strong>Clinical story made visible</strong>
+          <span>Every session contributes to a trajectory you can actually inspect and act on.</span>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head">
+          <div>
+            <h2 style="font-size:18px;margin-bottom:6px">What the demo does well</h2>
+            <p>Each area of the product is framed around reducing uncertainty during long-term exercise management.</p>
+          </div>
+        </div>
+        <div class="feature-grid">
+          <div class="card feature-card">
+            <div class="feature-icon" style="background:rgba(93,184,160,0.08);color:var(--accent)">&#8651;</div>
+            <h3 style="font-size:15px;font-weight:600;color:#fff;margin-bottom:8px">Real-time Adaptation</h3>
+            <p style="font-size:13px;color:var(--text-dim);line-height:1.7">Adjusts reps per set based on fatigue, energy, and pain. The plan behaves like a living prescription instead of a static checklist.</p>
+          </div>
+          <div class="card feature-card">
+            <div class="feature-icon" style="background:rgba(248,113,113,0.08);color:var(--danger)">&#9671;</div>
+            <h3 style="font-size:15px;font-weight:600;color:#fff;margin-bottom:8px">Overreach Prevention</h3>
+            <p style="font-size:13px;color:var(--text-dim);line-height:1.7">Detects fatigue spikes mid-session and pulls back automatically so the patient stays in a clinically safer zone.</p>
+          </div>
+          <div class="card feature-card">
+            <div class="feature-icon" style="background:rgba(251,191,36,0.08);color:var(--warning)">&#8766;</div>
+            <h3 style="font-size:15px;font-weight:600;color:#fff;margin-bottom:8px">Disease Trajectory</h3>
+            <p style="font-size:13px;color:var(--text-dim);line-height:1.7">Tracks how exercise delays decline over time and turns that progress into something both patient and physician can understand.</p>
+          </div>
+        </div>
+      </section>
     </div>
   </main>
 
-  <footer style="border-top:1px solid var(--border);padding:16px;text-align:center;font-size:11px;color:var(--text-faint)">
+  <footer class="landing-footer">
     MedSprint 2026 — Exercise Engagement for Progressive Muscle Disease
   </footer>
 </body>

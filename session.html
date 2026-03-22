@@ -23,11 +23,16 @@
     </div>
   </nav>
 
-  <div class="page">
+  <div class="page session-shell">
     <!-- Phase containers -->
-    <div id="phase-checkin" class="fade-in">
+    <div id="phase-checkin" class="fade-in phase-stack">
       <h1>Daily Check-In</h1>
       <p class="subtitle mb-6">How are you feeling today?</p>
+
+      <div class="session-intro">
+        <p class="session-intro-title">Today's program will guide the motion for you.</p>
+        <p class="session-intro-copy">After check-in, you'll see a looping hip flexion demo with simple cues before each set.</p>
+      </div>
 
       <label class="text-sm font-medium text-white" style="display:block;margin-bottom:8px">Energy Level</label>
       <div class="grid-3 mb-4">
@@ -52,31 +57,92 @@
     </div>
 
     <div id="phase-exercise" class="fade-in hidden">
-      <!-- Progress dots -->
-      <div class="flex gap-2 mb-8" id="set-progress"></div>
+      <div class="session-layout">
+        <div class="session-main">
+          <div class="flex gap-2 mb-8" id="set-progress"></div>
 
-      <div class="text-center mb-8">
-        <p class="label mb-1">Hip Flexion</p>
-        <h1 style="font-size:40px" id="set-title">Set 1</h1>
-        <p class="text-sm text-faint">of 3 sets</p>
+          <div class="text-center mb-2">
+            <p class="label mb-1">Hip Flexion</p>
+            <h1 style="font-size:40px" id="set-title">Set 1</h1>
+            <p class="text-sm text-faint">of 3 sets</p>
+          </div>
+
+          <div class="card card-glow text-center" style="padding:32px">
+            <p class="label mb-3">Recommended Reps</p>
+            <p class="huge-number text-accent" id="rec-reps">12</p>
+            <p class="text-xs text-faint mt-1">Max today: 15 reps</p>
+            <p class="text-xs text-faint mt-1" id="rec-reason"></p>
+          </div>
+
+          <div id="feedback-box" class="card hidden" style="background:var(--surface-2)">
+            <p class="text-xs font-medium text-faint mb-1">Last set feedback</p>
+            <p class="text-sm text-white" id="feedback-text"></p>
+          </div>
+
+          <p class="text-xs text-faint text-center mb-4">Resistance band, seated &middot; Smooth, controlled movement</p>
+          <button class="btn btn-primary btn-block" id="log-btn">Log This Set</button>
+
+          <div id="completed-sets" class="mt-4"></div>
+        </div>
+
+        <aside class="session-guide">
+          <div class="guide-card">
+            <div class="guide-topline">
+              <div>
+                <p class="guide-title">Animated Motion Guide</p>
+                <p class="guide-subtitle">Looping visual demo for seated hip flexion.</p>
+              </div>
+              <span class="guide-chip">Auto-play</span>
+            </div>
+
+            <div class="guide-stage" aria-hidden="true">
+              <div class="guide-chair-back"></div>
+              <div class="guide-chair-seat"></div>
+              <div class="guide-chair-leg left"></div>
+              <div class="guide-chair-leg right"></div>
+              <div class="guide-chair-foot left"></div>
+              <div class="guide-chair-foot right"></div>
+
+              <div class="guide-person">
+                <div class="guide-head"></div>
+                <div class="guide-torso"></div>
+                <div class="guide-arm"></div>
+                <div class="guide-hip"></div>
+                <div class="guide-leg-static"></div>
+                <div class="guide-calf-static"></div>
+                <div class="guide-leg-active"></div>
+                <div class="guide-calf-active"></div>
+                <div class="guide-band"></div>
+                <div class="guide-wave"></div>
+              </div>
+            </div>
+
+            <div class="guide-steps">
+              <div class="guide-step">
+                <span class="guide-step-num">1</span>
+                <div>
+                  <p>Sit tall</p>
+                  <p>Keep your back supported and shoulders relaxed.</p>
+                </div>
+              </div>
+              <div class="guide-step">
+                <span class="guide-step-num">2</span>
+                <div>
+                  <p>Lift with control</p>
+                  <p>Bring the knee upward slowly without leaning backward.</p>
+                </div>
+              </div>
+              <div class="guide-step">
+                <span class="guide-step-num">3</span>
+                <div>
+                  <p>Lower smoothly</p>
+                  <p>Return to the start position without dropping the leg.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </aside>
       </div>
-
-      <div class="card card-glow text-center" style="padding:32px">
-        <p class="label mb-3">Recommended Reps</p>
-        <p class="huge-number text-accent" id="rec-reps">12</p>
-        <p class="text-xs text-faint mt-1">Max today: 15 reps</p>
-        <p class="text-xs text-faint mt-1" id="rec-reason"></p>
-      </div>
-
-      <div id="feedback-box" class="card hidden" style="background:var(--surface-2)">
-        <p class="text-xs font-medium text-faint mb-1">Last set feedback</p>
-        <p class="text-sm text-white" id="feedback-text"></p>
-      </div>
-
-      <p class="text-xs text-faint text-center mb-4">Resistance band, seated &middot; Smooth, controlled movement</p>
-      <button class="btn btn-primary btn-block" id="log-btn">Log This Set</button>
-
-      <div id="completed-sets" class="mt-4"></div>
     </div>
 
     <div id="phase-logging" class="fade-in hidden">
@@ -235,7 +301,7 @@
       // Completed sets list
       let setsHtml = '';
       sets.forEach(s => {
-        setsHtml += `<div class="card" style="padding:10px 16px;display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;background:var(--surface-2)">
+        setsHtml += `<div class="card set-summary-card">
           <span class="text-dim text-sm">Set ${s.setNum}</span>
           <span class="flex items-center gap-3"><span class="font-medium text-white text-sm">${s.reps} reps</span><span class="text-xs text-faint">PE: ${s.pe}</span><span class="dot dot-sm ${dotClass(s.level)}" style="box-shadow:0 0 6px currentColor"></span></span>
         </div>`;
